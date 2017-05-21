@@ -1,0 +1,76 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>send</title>
+    <style>
+        table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        td, th {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+        tr:nth-child(even) {
+            background-color: #dddddd;
+        }
+    </style>
+</head>
+
+<body>
+
+    <input id="input" type="text" name="input"/>
+    <button onclick="search()" id="search">search</button><br>
+    <button onclick="forEach()" id="search">table</button><br>
+    <table id="output"></table>
+
+    <script>
+    var response = getResponse("http://localhost/laverde/webservices/api-countries.php"); 
+    var jsonObject = JSON.parse(response);
+    var index;
+
+    //console.log(jsonObject);
+    function getResponse(url){     
+        var xhr = new XMLHttpRequest();
+
+        xhr.open("GET",url,false);
+        xhr.send();
+        return xhr.responseText;
+    }
+
+    function search(){
+        var input = document.getElementById("input").value;
+        var id = input - 1;
+
+        document.getElementById("output").innerHTML = "<tr><td style= 'border: 1px solid #dddddd; text-align: left; padding: 8px;'>"+ jsonObject.countries[id].id + "</td><td style= 'border: 1px solid #dddddd; text-align: left; padding: 8px;'>" + jsonObject.countries[id].name + "</td></tr>";
+        }
+
+    function forEach(){
+        document.write("<table style='font-family: arial, sans-serif; border-collapse: collapse; width: 100%;'>");
+
+        for (index = 0; index < jsonObject.countries.length; ++index){
+        //console.log(jsonObject.countries[index]);
+        document.write("<tr ><td style= 'border: 1px solid #dddddd; text-align: left; padding: 8px;'>" + jsonObject.countries[index].id + "</td><td style= 'border: 1px solid #dddddd; text-align: left; padding: 8px;'>"+jsonObject.countries[index].name + "</td></tr>");
+        } 
+
+        document.write("</table>");
+    }
+
+
+
+
+
+
+
+
+
+        
+    </script>
+</body>
+</html>
